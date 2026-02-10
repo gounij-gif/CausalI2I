@@ -1,0 +1,145 @@
+You are labeling directed game pairs (A -> B) for whether playing A plausibly has a DIRECT causal influence on later playing B, beyond shared player taste. Causality is directional: A may influence B without the reverse being true.
+
+A "direct causal influence" means there is a plausible mechanism by which exposure to A specifically increases later interest/consumption of B, beyond shared taste correlation. Mechanisms can include (illustrative, not exhaustive): franchise continuation (sequels/episodes), explicit dependency (DLC/expansions), remaster/definitive-edition migration, shared progression or account/inventory carryover, explicit cross-promotion or launcher funnel, bundle/packaging that funnels from A to B, and successor/community migration in competitive ecosystems. Any credible direct mechanism beyond shared taste qualifies.
+
+Scoring rubric (0–3):
+- 3 (Strong direct influence): Explicit follow-up or dependency (clear next step).
+  Illustrative examples: direct sequel / numbered entry / episode continuation; expansion/DLC that requires or strongly follows the base game; explicit “continue in B”; remaster/definitive edition that players typically move to from the original; clear successor migration in a competitive ecosystem.
+- 2 (Medium): Clear funnel or strong linkage, but not an explicit dependency.
+  Illustrative examples: same series universe with strong continuity; prominent spinoff positioned as the next step for fans; strong ecosystem/community funnel (e.g., shared progression or persistent account benefits) without strict dependency.
+- 1 (Weak): Indirect but plausible influence that is more than genre overlap.
+  Illustrative examples: spiritual successor; strong creator/brand identity plus distinctive shared mechanics; shared community/mod/esports ecosystem that plausibly funnels players, but evidence is not strong enough for 2–3.
+- 0 (No direct influence / pure correlation): Only shared taste signals (genre, tags, popularity, same release era) with no specific funnel mechanism.
+
+Rules:
+- Do NOT infer causality from genre/tag overlap alone. If overlap is the only reason, label 0.
+- Do NOT infer causality from popularity or “both are famous.”
+- If B was released earlier than A, causal_effect should usually be 0 unless you explicitly identify a remaster/collection/definitive-edition or other clear reason supporting A -> B (e.g., “Definitive Edition” released later).
+- Keep explanations short and specific.
+- If you are not confident about the relationship between A and B, set causal_effect = 0, relation_type = "unknown", confidence = "low", and say "insufficient evidence" in the explanation.
+
+Return a valid JSON array with exactly one entry per input pair, in the same order. Each entry:
+{
+  "title_A": "<exactly as input>",
+  "title_B": "<exactly as input>",
+  "causal_effect": 0|1|2|3,
+  "relation_type": "sequel"|"prequel"|"episode"|"expansion_dlc"|"remaster"|"spinoff"|"same_franchise"|"competitive_successor"|"cross_promotion"|"bundle"|"cross_progression"|"shared_dev_publisher"|"shared_genre_only"|"other"|"unknown",
+  "confidence": "low"|"medium"|"high",
+  "explanation": "<1–2 sentences>"
+}
+
+Do not output anything outside the JSON array.
+Do not include trailing commas.
+
+---
+Below are a few examples (illustrative, not exhaustive):
+
+Example 1:
+{
+  "title_A": "The Witcher 2: Assassins of Kings",
+  "title_B": "The Witcher 3: Wild Hunt",
+  "causal_effect": 3,
+  "relation_type": "sequel",
+  "confidence": "high",
+  "explanation": "Direct sequel with strong narrative and character continuity."
+}
+
+Example 2:
+{
+  "title_A": "The Witcher 3: Wild Hunt",
+  "title_B": "The Witcher 2: Assassins of Kings",
+  "causal_effect": 0,
+  "relation_type": "same_franchise",
+  "confidence": "high",
+  "explanation": "Reverse direction is not a clear funnel; playing the newer entry does not inherently motivate adopting the older one."
+}
+
+Example 3:
+{
+  "title_A": "Portal",
+  "title_B": "Portal 2",
+  "causal_effect": 3,
+  "relation_type": "sequel",
+  "confidence": "high",
+  "explanation": "Explicit sequel expanding the same mechanics, story, and universe."
+}
+
+Example 4:
+{
+  "title_A": "The Witcher 3: Wild Hunt",
+  "title_B": "The Witcher 3: Wild Hunt - Blood and Wine",
+  "causal_effect": 3,
+  "relation_type": "expansion_dlc",
+  "confidence": "high",
+  "explanation": "Expansion content is a direct add-on to the base game and is typically consumed after playing it."
+}
+
+Example 5:
+{
+  "title_A": "The Elder Scrolls V: Skyrim",
+  "title_B": "The Elder Scrolls V: Skyrim - Dawnguard",
+  "causal_effect": 3,
+  "relation_type": "expansion_dlc",
+  "confidence": "high",
+  "explanation": "DLC depends on the base game and is a direct continuation of that experience."
+}
+
+Example 6:
+{
+  "title_A": "Age of Empires II (2013)",
+  "title_B": "Age of Empires II: Definitive Edition",
+  "causal_effect": 3,
+  "relation_type": "remaster",
+  "confidence": "medium",
+  "explanation": "Definitive/remastered edition plausibly funnels players of the older version to migrate to the updated release."
+}
+
+Example 7:
+{
+  "title_A": "Overwatch",
+  "title_B": "Overwatch 2",
+  "causal_effect": 3,
+  "relation_type": "competitive_successor",
+  "confidence": "medium",
+  "explanation": "Successor title in the same competitive ecosystem plausibly drives migration from the earlier game."
+}
+
+Example 8:
+{
+  "title_A": "Civilization V",
+  "title_B": "Civilization VI",
+  "causal_effect": 2,
+  "relation_type": "same_franchise",
+  "confidence": "high",
+  "explanation": "Same franchise upgrade that can plausibly funnel players from an older installment to a newer one."
+}
+
+Example 9:
+{
+  "title_A": "Civilization VI",
+  "title_B": "Civilization V",
+  "causal_effect": 0,
+  "relation_type": "same_franchise",
+  "confidence": "high",
+  "explanation": "Reverse direction is not a clear funnel; playing the newer installment does not inherently motivate adopting the older one."
+}
+
+Example 10:
+{
+  "title_A": "The Elder Scrolls V: Skyrim",
+  "title_B": "The Witcher 3: Wild Hunt",
+  "causal_effect": 0,
+  "relation_type": "shared_genre_only",
+  "confidence": "high",
+  "explanation": "Shared open-world RPG audience is consistent with taste correlation, but there is no clear direct funnel from A to B."
+}
+
+Example 11:
+{
+  "title_A": "FIFA 21",
+  "title_B": "NBA 2K21",
+  "causal_effect": 0,
+  "relation_type": "shared_genre_only",
+  "confidence": "high",
+  "explanation": "Shared sports audience without a specific direct mechanism linking A to B."
+}

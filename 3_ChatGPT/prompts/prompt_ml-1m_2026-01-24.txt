@@ -1,0 +1,165 @@
+You are labeling directed movie pairs (A -> B) for whether watching movie A plausibly has a DIRECT causal influence on later watching movie B, beyond shared viewer taste.
+
+Causality is directional: watching A may influence watching B without the reverse being true.
+
+A "direct causal influence" means there is a plausible mechanism by which exposure to movie A specifically increases later interest or consumption of movie B, beyond shared taste correlation.
+
+Users’ general movie preferences (genre affinity, era preference, popularity bias, etc.) should be treated as confounders and NOT as causal mechanisms.
+
+Illustrative (not exhaustive) mechanisms that DO qualify as direct causal influence include:
+- Explicit sequels or prequels that are typically watched in order
+- Continuations of the same storyline or fictional timeline
+- Films within the same franchise where one naturally funnels into another
+- Spin-offs that are clearly positioned for viewers of the original
+- Companion films or direct narrative follow-ups
+- Strong director-driven continuation when viewers of A are plausibly nudged toward B specifically
+
+Scoring rubric (0–3):
+
+- 3 (Strong direct influence):
+  Explicit continuation or dependency. Movie B is a clear next step after movie A.
+  Examples: direct sequels, trilogy installments, cliffhanger continuations.
+
+- 2 (Medium):
+  Clear funnel or strong linkage, but not a strict dependency.
+  Examples: same franchise universe, spin-offs, strong narrative or creator continuity.
+
+- 1 (Weak):
+  Indirect but plausible influence that goes beyond genre overlap.
+  Examples: strong director or studio effect, thematic continuation that plausibly nudges viewers.
+
+- 0 (No direct influence / pure correlation):
+  Only shared taste signals (genre, era, popularity, audience overlap) with no specific funnel mechanism.
+
+Rules:
+- Do NOT infer causality from genre, theme, or popularity alone.
+- Do NOT infer causality just because two movies are often recommended together.
+- If movie B was released earlier than movie A, causal_effect should usually be 0,
+  unless there is a clear reason why viewers commonly watch B after A.
+- Keep explanations short and specific.
+- If you are not confident about the relationship between A and B, set causal_effect = 0,
+  relation_type = "unknown", confidence = "low", and state "insufficient evidence".
+
+Return a valid JSON array with exactly one entry per input pair, in the same order.
+
+Each entry must follow this exact structure:
+
+{
+  "title_A": "<exactly as input>",
+  "title_B": "<exactly as input>",
+  "causal_effect": 0 | 1 | 2 | 3,
+  "relation_type": "sequel" | "prequel" | "spinoff" | "same_franchise" | "same_universe" | "shared_director" | "shared_genre_only" | "other" | "unknown",
+  "confidence": "low" | "medium" | "high",
+  "explanation": "<1–2 sentences>"
+}
+
+Do not output anything outside the JSON array.
+Do not include trailing commas.
+Pay attention to valid JSON formatting.
+Movie titles must be written exactly as provided in the input.
+
+If you do not recognize a movie, assign causal_effect = 0.
+
+---
+
+Below are a few examples (illustrative, not exhaustive):
+
+Example 1:
+{
+  "title_A": "The Lord of the Rings: The Fellowship of the Ring (2001)",
+  "title_B": "The Lord of the Rings: The Two Towers (2002)",
+  "causal_effect": 3,
+  "relation_type": "sequel",
+  "confidence": "high",
+  "explanation": "Direct sequel continuing the same storyline within a planned trilogy."
+}
+
+Example 2:
+{
+  "title_A": "The Lord of the Rings: The Two Towers (2002)",
+  "title_B": "The Lord of the Rings: The Return of the King (2003)",
+  "causal_effect": 3,
+  "relation_type": "sequel",
+  "confidence": "high",
+  "explanation": "Explicit continuation concluding the narrative arc of the trilogy."
+}
+
+Example 3:
+{
+  "title_A": "The Matrix (1999)",
+  "title_B": "The Matrix Reloaded (2003)",
+  "causal_effect": 3,
+  "relation_type": "sequel",
+  "confidence": "high",
+  "explanation": "Direct sequel designed to be watched after the original film."
+}
+
+Example 4:
+{
+  "title_A": "The Matrix Reloaded (2003)",
+  "title_B": "The Matrix (1999)",
+  "causal_effect": 0,
+  "relation_type": "same_franchise",
+  "confidence": "high",
+  "explanation": "Reverse direction is not a natural viewing funnel."
+}
+
+Example 5:
+{
+  "title_A": "Star Wars: Episode IV – A New Hope (1977)",
+  "title_B": "Star Wars: Episode V – The Empire Strikes Back (1980)",
+  "causal_effect": 3,
+  "relation_type": "sequel",
+  "confidence": "high",
+  "explanation": "Sequential continuation within the original Star Wars trilogy."
+}
+
+Example 6:
+{
+  "title_A": "Batman Begins (2005)",
+  "title_B": "The Dark Knight (2008)",
+  "causal_effect": 3,
+  "relation_type": "sequel",
+  "confidence": "high",
+  "explanation": "Second installment in a tightly connected trilogy."
+}
+
+Example 7:
+{
+  "title_A": "Pulp Fiction (1994)",
+  "title_B": "Reservoir Dogs (1992)",
+  "causal_effect": 1,
+  "relation_type": "shared_director",
+  "confidence": "medium",
+  "explanation": "Viewers impressed by Tarantino’s style may seek out his earlier films."
+}
+
+Example 8:
+{
+  "title_A": "Toy Story (1995)",
+  "title_B": "Monsters, Inc. (2001)",
+  "causal_effect": 1,
+  "relation_type": "other",
+  "confidence": "medium",
+  "explanation": "Pixar brand loyalty may weakly nudge viewers toward other Pixar films."
+}
+
+Example 9:
+{
+  "title_A": "The Godfather (1972)",
+  "title_B": "Goodfellas (1990)",
+  "causal_effect": 0,
+  "relation_type": "shared_genre_only",
+  "confidence": "high",
+  "explanation": "Both are mafia dramas, but there is no direct narrative or franchise link."
+}
+
+Example 10:
+{
+  "title_A": "Inception (2010)",
+  "title_B": "Interstellar (2014)",
+  "causal_effect": 1,
+  "relation_type": "shared_director",
+  "confidence": "medium",
+  "explanation": "Fans of Christopher Nolan’s work may plausibly seek out his later films."
+}

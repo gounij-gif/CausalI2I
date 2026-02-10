@@ -1,0 +1,135 @@
+You are labeling directed book pairs (A -> B) for whether reading A plausibly has a DIRECT causal influence on later reading B, beyond shared reader taste. Causality is directional: A may influence B without the reverse being true.
+
+A "direct causal influence" means there is a plausible mechanism by which exposure to A specifically increases later interest/consumption of B, beyond shared taste correlation. Mechanisms can include (illustrative, not exhaustive): explicit series continuation (sequels / numbered volumes), prequels that are commonly read after a main entry, companion or spin-off novels that are clearly positioned as the next step for readers, short-story collections or novellas that depend on familiarity with the main book, canonical continuations within the same fictional universe, or highly explicit author-recommended reading order. Any credible direct mechanism beyond shared taste qualifies.
+
+Scoring rubric (0–3):
+- 3 (Strong direct influence): Explicit continuation or dependency (clear next step).
+  Illustrative examples: direct sequel / next numbered volume; continuation of the same storyline with the same main characters; companion volume explicitly meant to be read after A.
+- 2 (Medium): Clear funnel or strong linkage, but not an explicit dependency.
+  Illustrative examples: same series universe with strong continuity; spin-off focused on side characters that is clearly marketed to readers of A.
+- 1 (Weak): Indirect but plausible influence that is more than genre overlap.
+  Illustrative examples: shared fictional universe with loose connections; strong author or brand continuation where readers of A are plausibly nudged toward B, but without a strict reading order.
+- 0 (No direct influence / pure correlation): Only shared taste signals (genre, themes, popularity, same audience) with no specific funnel mechanism.
+
+Rules:
+- Do NOT infer causality from genre or theme overlap alone. If overlap is the only reason, label 0.
+- Do NOT infer causality from popularity or “both are well-known books.”
+- If B was published earlier than A, causal_effect should usually be 0 unless you explicitly identify a clear reason supporting A -> B (e.g., a companion or prequel that is commonly read after the main series).
+- Keep explanations short and specific.
+- If you are not confident about the relationship between A and B, set causal_effect = 0, relation_type = "unknown", confidence = "low", and say "insufficient evidence" in the explanation.
+
+Return a valid JSON array with exactly one entry per input pair, in the same order. Each entry:
+{
+  "title_A": "<exactly as input>",
+  "title_B": "<exactly as input>",
+  "causal_effect": 0|1|2|3,
+  "relation_type": "sequel"|"prequel"|"spinoff"|"same_series"|"same_universe"|"shared_author"|"shared_genre_only"|"other"|"unknown",
+  "confidence": "low"|"medium"|"high",
+  "explanation": "<1–2 sentences>"
+}
+
+Do not output anything outside the JSON array.
+Do not include trailing commas.
+
+---
+Below are a few examples (illustrative, not exhaustive):
+
+Example 1:
+{
+  "title_A": "The Hunger Games (The Hunger Games, #1)",
+  "title_B": "Catching Fire (The Hunger Games, #2)",
+  "causal_effect": 3,
+  "relation_type": "sequel",
+  "confidence": "high",
+  "explanation": "Direct sequel continuing the same storyline and characters."
+}
+
+Example 2:
+{
+  "title_A": "Catching Fire (The Hunger Games, #2)",
+  "title_B": "Mockingjay (The Hunger Games, #3)",
+  "causal_effect": 3,
+  "relation_type": "sequel",
+  "confidence": "high",
+  "explanation": "Explicit continuation concluding the trilogy."
+}
+
+Example 3:
+{
+  "title_A": "Mockingjay (The Hunger Games, #3)",
+  "title_B": "The Hunger Games (The Hunger Games, #1)",
+  "causal_effect": 0,
+  "relation_type": "same_series",
+  "confidence": "high",
+  "explanation": "Reverse direction is not a natural funnel; readers rarely start the series after finishing it."
+}
+
+Example 4:
+{
+  "title_A": "Harry Potter and the Sorcerer's Stone (Harry Potter, #1)",
+  "title_B": "Harry Potter and the Chamber of Secrets (Harry Potter, #2)",
+  "causal_effect": 3,
+  "relation_type": "sequel",
+  "confidence": "high",
+  "explanation": "Next numbered volume in a tightly connected series."
+}
+
+Example 5:
+{
+  "title_A": "Harry Potter and the Chamber of Secrets (Harry Potter, #2)",
+  "title_B": "Harry Potter and the Prisoner of Azkaban (Harry Potter, #3)",
+  "causal_effect": 3,
+  "relation_type": "sequel",
+  "confidence": "high",
+  "explanation": "Direct continuation of the same narrative arc."
+}
+
+Example 6:
+{
+  "title_A": "Divergent (Divergent, #1)",
+  "title_B": "Insurgent (Divergent, #2)",
+  "causal_effect": 3,
+  "relation_type": "sequel",
+  "confidence": "high",
+  "explanation": "Second installment explicitly following the events of the first book."
+}
+
+Example 7:
+{
+  "title_A": "Insurgent (Divergent, #2)",
+  "title_B": "Allegiant (Divergent, #3)",
+  "causal_effect": 3,
+  "relation_type": "sequel",
+  "confidence": "high",
+  "explanation": "Final book in the trilogy, designed to be read after Insurgent."
+}
+
+Example 8:
+{
+  "title_A": "Throne of Glass (Throne of Glass, #1)",
+  "title_B": "Crown of Midnight (Throne of Glass, #2)",
+  "causal_effect": 3,
+  "relation_type": "sequel",
+  "confidence": "high",
+  "explanation": "Direct sequel continuing the same protagonist and plotline."
+}
+
+Example 9:
+{
+  "title_A": "Gone Girl",
+  "title_B": "The Girl on the Train",
+  "causal_effect": 0,
+  "relation_type": "shared_genre_only",
+  "confidence": "high",
+  "explanation": "Both are psychological thrillers, but there is no direct narrative or franchise link."
+}
+
+Example 10:
+{
+  "title_A": "The Fault in Our Stars",
+  "title_B": "Looking for Alaska",
+  "causal_effect": 1,
+  "relation_type": "shared_author",
+  "confidence": "medium",
+  "explanation": "Readers who enjoyed one John Green novel may plausibly be nudged toward another, but without an explicit reading order."
+}
