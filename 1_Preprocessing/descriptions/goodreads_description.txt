@@ -1,0 +1,28 @@
+
+Dataset: goodreads
+
+    Information about the full dataset:
+-------------------------------------------
+Number of unique users in the dataset: 7,801
+Number of unique items in the dataset: 6,384
+Number of interactions in the dataset: 49,801,584 (= 7,801 x 6,384)
+Number of positive interactions in the dataset: 869,451 (1.75% of total)
+Number of negative interactions in the dataset: 48,932,133 (98.25% of total)
+
+
+   Information about the test dataset:
+-------------------------------------------
+Number of unique users in the test dataset: 3,900 (49.99% of total)
+Number of unique items in the test dataset: 1,276 (19.99% of total)
+Number of interactions in the test dataset: 4,976,400 (= 3,900 x 1,276)
+Number of positive interactions in the test dataset: 84,623 (1.70% of total)
+Number of negative interactions in the test dataset: 4,891,777 (98.30% of total)
+
+
+   Information about the train dataset:
+-------------------------------------------
+Number of unique users that appear in train but not in test: 3,901 (= 7,801 - 3,900)
+Number of unique items that appear in train but not in test: 5,108 (= 6,384 - 1,276)
+Number of interactions in the train dataset: 44,825,184 (= 49,801,584 - 4,976,400)
+Number of positive interactions in the train dataset: 784,828 (1.75% of total)
+Number of negative interactions in the train dataset: 44,040,356 (98.25% of total)

@@ -1,0 +1,28 @@
+
+Dataset: ml-1m
+
+    Information about the full dataset:
+-------------------------------------------
+Number of unique users in the dataset: 6,040
+Number of unique items in the dataset: 3,706
+Number of interactions in the dataset: 22,384,240 (= 6,040 x 3,706)
+Number of positive interactions in the dataset: 1,000,209 (4.47% of total)
+Number of negative interactions in the dataset: 21,384,031 (95.53% of total)
+
+
+   Information about the test dataset:
+-------------------------------------------
+Number of unique users in the test dataset: 3,020 (50.00% of total)
+Number of unique items in the test dataset: 749 (20.21% of total)
+Number of interactions in the test dataset: 2,261,980 (= 3,020 x 749)
+Number of positive interactions in the test dataset: 99,153 (4.38% of total)
+Number of negative interactions in the test dataset: 2,162,827 (95.62% of total)
+
+
+   Information about the train dataset:
+-------------------------------------------
+Number of unique users that appear in train but not in test: 3,020 (= 6,040 - 3,020)
+Number of unique items that appear in train but not in test: 2,957 (= 3,706 - 749)
+Number of interactions in the train dataset: 20,122,260 (= 22,384,240 - 2,261,980)
+Number of positive interactions in the train dataset: 901,056 (4.48% of total)
+Number of negative interactions in the train dataset: 19,221,204 (95.52% of total)

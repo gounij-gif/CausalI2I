@@ -1,0 +1,28 @@
+
+Dataset: steam
+
+    Information about the full dataset:
+-------------------------------------------
+Number of unique users in the dataset: 8,364
+Number of unique items in the dataset: 12,434
+Number of interactions in the dataset: 103,997,976 (= 8,364 x 12,434)
+Number of positive interactions in the dataset: 1,360,027 (1.31% of total)
+Number of negative interactions in the dataset: 102,637,949 (98.69% of total)
+
+
+   Information about the test dataset:
+-------------------------------------------
+Number of unique users in the test dataset: 4,182 (50.00% of total)
+Number of unique items in the test dataset: 2,486 (19.99% of total)
+Number of interactions in the test dataset: 10,396,452 (= 4,182 x 2,486)
+Number of positive interactions in the test dataset: 135,099 (1.30% of total)
+Number of negative interactions in the test dataset: 10,261,353 (98.70% of total)
+
+
+   Information about the train dataset:
+-------------------------------------------
+Number of unique users that appear in train but not in test: 4,182 (= 8,364 - 4,182)
+Number of unique items that appear in train but not in test: 9,948 (= 12,434 - 2,486)
+Number of interactions in the train dataset: 93,601,524 (= 103,997,976 - 10,396,452)
+Number of positive interactions in the train dataset: 1,224,928 (1.31% of total)
+Number of negative interactions in the train dataset: 92,376,596 (98.69% of total)
