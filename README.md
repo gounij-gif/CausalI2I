@@ -1,25 +1,79 @@
 # CausalI2I
 
-This repository contains the code and experiments for the CausalI2I project.
+Welcome to the official repository for **CausalI2I**, containing the full codebase and experimental pipeline used in our study.  
+This repository is organized to support full reproducibility of the preprocessing, modeling, GPT-based evaluation, and downstream analyses described in the paper.
 
-**Important: required artifacts folder**  
-This project looks for a sibling directory named `CausalI2I_artifacts` **next to** this repo. It stores datasets, intermediate outputs, and other assets used by the scripts and notebooks. If it is missing, just ask the project owner for it or restore it from your local backup.
+---
 
-Example layout:
+## Required Artifacts
+
+To keep this repository lightweight and suitable for version control, large intermediate files (processed datasets, trained models, and experimental outputs) are stored separately.
+
+Before running the code, please download the required artifacts archive:
+
+**CausalI2I_artifacts.zip**  
+Download link:  
+https://drive.google.com/file/d/1E-k1yPH3zLvZUw0qkRGP0spjKxoP_U8O/view?usp=sharing
+
+After downloading:
+
+1. Unzip the archive.
+2. Ensure the extracted folder is named exactly `CausalI2I_artifacts`.
+3. Place it in the same parent directory as this repository (as a sibling folder).
+
+Your directory structure should look like this:
 ```
 Home directory
   ├── CausalI2I
   └── CausalI2I_artifacts
 ```
+The code assumes this layout when resolving paths.
 
-**Prereqs**  
-Run notebooks from their own folders (the code uses `Path.cwd()` and `parents[...]` to locate `CausalI2I_artifacts`).  
-You will need a Python environment with typical data-science deps: `numpy`, `pandas`, `torch`, `tqdm`, `matplotlib`, `scikit-learn`, `scipy`, and `openai` for the GPT step.  
-For the GPT step, place your OpenAI API key in `~/secret_api_key.txt`.
+---
 
-**Run Order (1 → 7)**  
-*The `CausalI2I_artifacts` folder already contains results from each step, so you can skip steps if you want. Run everything if you want to reproduce all results.* 
-Go in order from folder `1_...` to `7_...`. Each step depends on outputs from previous steps.
+## Prerequisites
+
+The project is implemented in Python and depends on standard scientific-computing and machine-learning libraries.  
+Please ensure your environment includes:
+
+- `numpy`
+- `pandas`
+- `torch`
+- `tqdm`
+- `matplotlib`
+- `scikit-learn`
+- `scipy`
+- `openai` (required only for the GPT-based evaluation step)
+
+For the GPT evaluation stage, place your OpenAI API key in:
+```
+~/secret_api_key.txt
+```
+
+---
+
+## Execution and Reproducibility
+
+The provided `CausalI2I_artifacts` folder contains **all intermediate datasets, trained models, GPT outputs, and evaluation files** required to reproduce the final results reported in the paper.
+
+This means:
+
+- You do **not** need to rerun the full pipeline.
+- You may start from **any stage** of the project.
+- You can regenerate only the specific figures, tables, or components you are interested in, provided that the corresponding inputs already exist in `CausalI2I_artifacts`.
+
+If you wish to fully regenerate the entire pipeline from raw data (preprocessing → modeling → GPT labeling → evaluation → figures), follow the complete step-by-step execution order described below.
+
+Otherwise, you may directly execute the notebook corresponding to the component you want to reproduce (e.g., evaluation or figure generation).
+
+### Important
+
+- Run each notebook from its own folder.  
+- The project relies on `Path.cwd()` and relative parent paths to locate `CausalI2I_artifacts`.  
+- Running notebooks from other directories may cause path resolution issues.
+
+---
+
 
 1. **1_Preprocessing**  
 `1_Preprocessing/dataset_processors/processor_ml-1m.ipynb` loads `CausalI2I_artifacts/Datasets/Raw/ml-1m/ratings.dat`, builds train/test splits, reindexes users/items, and writes `CausalI2I_artifacts/Datasets/Processed/ml-1m/train.csv`, `test.csv`, `data_sasrec.csv`, plus `item_dict.pkl` and `Chosen_Pairs/ml-1m_chosen_pairs.pkl`.  
